@@ -1,0 +1,237 @@
+extends main.pug
+
+block content
+
+    div#contentMap
+        div#map
+
+    div.flex-container
+
+        if literalsPredicates.length > 0
+            div.flex-element
+                h2.attributeTypeTitle Literals
+                ul.properties
+                    each literalPredicate in literalsPredicates
+                        - var i = 0;
+                        li.predicate
+                            a(href=literalPredicate.url).alignedTop
+                                span.alignedTop #{literalPredicate.prefix}:
+                                | #{literalPredicate.value}
+                            if literalPredicate.value == "sameAs"
+                                p.sameAs (For more information, check next link)
+                            div(id = literalPredicate.value).values
+                                ul
+                                    each literal in literals
+                                        if literalPredicate.url == literal.relation.url
+                                            if i < 5
+                                                li
+                                                    if literal.value.type != 'uri'
+                                                       | #{literal.value.value}
+                                                    else
+                                                        if literal.image == false
+                                                            a(href=literal.value.value) #{literal.value.value}
+                                                        else
+                                                            img(src=literal.value.value)#resourceImg
+                                            else
+                                                li.hidden
+                                                    if literal.value.type != 'uri'
+                                                        | #{literal.value.value}
+                                                    else
+                                                        if literal.image == false
+                                                            a(href=literal.value.value) #{literal.value.value}
+                                                        else
+                                                            img(src=literal.value.value)#resourceImg
+                                            - i++;
+
+                        if i > 5
+                            button(class = "collapseButton" id = literalPredicate.value + "Button" onClick="showItems(\"" + literalPredicate.value + "\");") Show more
+
+
+        if typedLiteralsPredicates.length > 0
+            div.flex-element
+                h2.attributeTypeTitle Typed Literals
+                ul.properties
+                    each typedLiteralPredicate in typedLiteralsPredicates
+                        - var i = 0;
+                        li.predicate
+                            a(href=typedLiteralPredicate.url).alignedTop
+                                span.alignedTop #{typedLiteralPredicate.prefix}:
+                                | #{typedLiteralPredicate.value}
+                            div(id = typedLiteralPredicate.value).values
+                                ul
+                                    each typedLiteral in typedLiterals
+                                        if typedLiteralPredicate.url == typedLiteral.relation.url
+                                            if i < 5
+                                                li
+                                                    | #{typedLiteral.value.value}
+                                                    |
+                                                    span (#{typedLiteral.value.datatype})
+                                            else
+                                                li.hidden
+                                                    | #{typedLiteral.value.value}
+                                                    |
+                                                    span (#{typedLiteral.value.datatype})
+                                            - i++;
+
+                        if i > 5
+                            button(class = "collapseButton" id = typedLiteralPredicate.value + "Button" onClick="showItems(\"" + typedLiteralPredicate.value + "\");") Show more
+
+        if relationsPredicates.length > 0
+            div.flex-element
+                h2.attributeTypeTitle Relations
+                ul.properties
+                    each relationPredicate in relationsPredicates
+                        - var i = 0;
+                        li.predicate
+                            a(href=relationPredicate.url).alignedTop
+                                span.alignedTop #{relationPredicate.prefix}:
+                                | #{relationPredicate.value}
+                            div(id = relationPredicate.value).values
+                                ul
+                                    each relation in relations
+                                        if relationPredicate.url == relation.relation.url
+                                            if i < 5
+                                                li
+                                                    a(href=relation.value.url) #{relation.value.value}
+                                            else
+                                                li.hidden
+                                                    a(href=relation.value.url) #{relation.value.value}
+                                            - i++;
+
+                        if i > 5
+                            button(class = "collapseButton" id = relationPredicate.value +"Button" onClick="showItems(\""+relationPredicate.value+"\");") Show more
+
+
+        if reverseRelationsPredicates.length > 0
+            div.flex-element
+                h2.attributeTypeTitle Inverse relations
+                ul.properties
+                    each reverseRelationPredicate in reverseRelationsPredicates
+                        - var i = 0;
+                        li.predicate
+                            | Has related:
+                            |
+                            a(href=reverseRelationPredicate.url).alignedTop
+                                span.alignedTop #{reverseRelationPredicate.prefix}:
+                                | #{reverseRelationPredicate.value}
+                            div(id = reverseRelationPredicate.value).values
+                                ul
+                                    each relation in reverseRelations
+                                        if reverseRelationPredicate.url == relation.relation.url
+                                            if i < 5
+                                                li
+                                                    a(href=relation.value.url) #{relation.value.value}
+                                            else
+                                                li.hidden
+                                                    a(href=relation.value.url) #{relation.value.value}
+
+                                            - i++;
+
+                        if i > 5
+                            button(class = "collapseButton" id = reverseRelationPredicate.value + "Button" onClick="showItems(\"" + reverseRelationPredicate.value + "\");") Show more
+
+        if blankNodesPredicates.length > 0
+            div.flex-element
+                h2.attributeTypeTitle Blank Nodes
+                ul.properties
+                    each blankNodePredicate in blankNodesPredicates
+                        - var i = 0;
+                        li.predicate
+                            a(href=blankNodePredicate.url).alignedTop
+                                span.alignedTop #{blankNodePredicate.prefix}:
+                                | #{blankNodePredicate.value}
+                            div(id = blankNodePredicate.value).values
+                                ul
+                                    each blankNode in blankNodes
+                                        if blankNodePredicate.url == blankNode.relation.url
+                                            if i < 5
+                                                li
+                                                    | [
+                                                    span
+                                                        a(href=datasetBase + blankNode.nodeID) Anonymous resource
+                                                            |
+                                                            | (#{blankNode.nodeID})
+                                                    |
+                                                    |
+                                                    div.bnodeTypes
+                                                        |(
+                                                        each type in blankNode.types
+                                                            a(href=type.url).alignedTop
+                                                                span.alignedTop #{type.prefix}:
+                                                                | #{type.value}
+                                                        |)
+                                                    ul
+                                                        each attribute in blankNode.attributes
+                                                            if attribute.type != "type"
+                                                                li
+                                                                    a(href=attribute.relation.url).alignedTop
+                                                                        span.alignedTop #{attribute.relation.prefix}:
+                                                                        | #{attribute.relation.value}
+                                                                    |
+                                                                    |
+                                                                    case attribute.type
+                                                                        when "literal"
+                                                                        when "typed-literal"
+                                                                            | #{attribute.value}
+                                                                        when "bnode"
+                                                                            a(href=datasetBase + attribute.value) Anonymous resource
+                                                                                span (#{attribute.value})
+                                                                            |
+                                                                        when "uri"
+                                                                            a #{attribute.value}
+                                                                        when "image"
+                                                                            img(src=attribute.value)#resourceImg
+
+                                                    | ]
+                                            else
+                                                li.hidden
+                                                    a(href=datasetBase + blankNode.nodeID) Anonymous resource (#{blankNode.nodeID})
+                                            - i++;
+
+                        if i > 5
+                            button(class = "collapseButton" id = blankNodePredicate.value + "Button" onClick="showItems(\"" + blankNodePredicate.value + "\");") Show more
+
+        if geometriesPredicates.length > 0
+            div#geometricAttributes.flex-element
+                h2.attributeTypeTitle Geometric Attributes
+                ul.properties
+                    each geometriyPredicate in geometriesPredicates
+                        li.predicate
+                            a(href=geometriyPredicate.url).alignedTop #{geometriyPredicate.prefix}:#{geometriyPredicate.value}
+                            div(id = geometriyPredicate.value).values
+                                ul
+                                    each geometry in geometries
+                                        if geometriyPredicate.url == geometry.relation.url
+                                            li.hidden #{geometry.value}
+                        button(class = "geometryButton collapseButton" id = geometriyPredicate.value + "Button" onClick="showItems(\"" + geometriyPredicate.value + "\");") Show more
+
+        if pointsPredicates.length > 0
+            div.flex-element
+                h2.attributeTypeTitle Coordinates Attributes
+                ul.properties
+                    each pointPredicate in pointsPredicates
+                        li.predicate
+                            a(href=pointPredicate.lat.url).alignedTop
+                                span.alignedTop #{pointPredicate.lat.prefix}:
+                                | #{pointPredicate.lat.value}
+                            div.values
+                                ul
+                                    each point in points
+                                        li #{point.lat}
+                        li.predicate
+                            a(href=pointPredicate.long.url).alignedTop
+                                span.alignedTop #{pointPredicate.long.prefix}:
+                                | #{pointPredicate.long.value}
+                            div.values
+                                ul
+                                    each point in points
+                                        li #{point.long}
+
+    div#prefixes
+        h2 Recognized prefixes
+        ul
+            each element in prefixesUsed
+                li #{element.prefix}
+                    |
+                    |
+                    a(href=element.ontology) (#{element.ontology})

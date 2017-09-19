@@ -1,0 +1,63 @@
+
+Config ontology for configuration file
+
+
+--- Project properties
+
+
+config:projectName "Project Name";
+    Required. The name of the project, for display in page titles.
+
+config:projectHomepage <project_homepage_url.html>;
+    Required. A project homepage or similar URL, for linking in page titles.
+
+config:projectLogo <project_logo_url.html>;
+    A logo of the project, for display in page.
+
+
+--- Display properties
+
+
+config:labelProperty ex:property1, ex:property2, ...;
+    The value of these RDF properties, if present in the dataset,
+    will be used as labels and page titles for resources.
+
+config:descriptionProperty ex:property1, ex:property2, ...;
+    The value of these RDF properties, if present in the dataset,
+    will be used descriptions for resources.
+
+config:longProperty ex:property1, ex:property2, ...;
+    The value of these RDF properties, if present in the dataset,
+    will be displayed in a map as longitude value. Requires a latProperty.
+
+config:latProperty ex:property1, ex:property2, ...;
+    The value of these RDF properties, if present in the dataset,
+    will be displayed in a map as latitude value. Requires a longProperty.
+
+config:geoProperty ex:property1, ex:property2, ...;
+    The value of these RDF properties, if present in the dataset,
+    will be displayed in a map.
+
+config:defaultView "defaultView";
+    Required. The default view that will be displayed in the page.
+    It must be "user" or "developer"
+
+
+--- Server properties
+
+
+config:sparqlEndpoint <sparql_endpoint_url>;
+    Required. The URL of the SPARQL endpoint whose data we want to expose.
+
+config:datasetBase <dataset_uri_prefix>;
+    Required. The common URI prefix of the resource identifiers in the SPARQL dataset.
+
+config:webBase <server_base_uri>;
+    Required. The root URL where the application is installed, e.g. http://myserver/mydataset/.
+
+config:webResourcePrefix "uri_prefix/";
+    Required. Yhis string will be prefixed to the mapped web URIs. You may specify a prefix like "resource/",
+    which will result in a mapped URI of http://myserver/mydataset/resource/page.
+
+config:port
+    The port where de server will listen on. If it is not filled, the default port will be 8080.

@@ -1,0 +1,93 @@
+doctype html
+html
+    head
+        title #{rTitle} | #{projectName}
+        link(rel='stylesheet', href='style.css')
+        link(rel="icon" href="favicon.ico" type="image/x-icon")
+
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")
+        script(type="text/javascript", src="client.js")
+
+    body
+
+        div#header
+            if projectLogo != ""
+                div#projectLogo
+                    img(src=projectLogo)
+
+            div#projectTitle
+                h1 #{rTitle}
+
+            if rTypes.length > 0
+                div#types
+                    ul
+                        each type in rTypes
+                            li
+                                a(href=type.url)
+                                    span #{type.prefix}:
+                                    | #{type.value}
+
+            div#homeLink
+                a(href = projectHomePage) (#{projectName})
+
+        div#resourceUri
+            h2 #{rUri}
+
+        if rDescription != ""
+            div#resourceDescription
+                p #{rDescription}
+
+        div#content
+            block content
+
+        if rTitle != "404 Not Found"
+
+            div#viewSelector
+                div.radio-group
+                    form(id="changeViewType")
+                        input(
+                            type="radio"
+                            id="user"
+                            name="selector"
+                            value="user"
+                        )
+                        label(for="user") User view
+                        input(
+                            type="radio"
+                            id="developer"
+                            name="selector"
+                            value="developer"
+                        )
+                        label(for="developer") Developer view
+
+        div#footer
+            div
+                p Browse using
+                    |
+                    |
+                    a(href="") LODI
+                    |
+                    | (developed by
+                    |
+                    a(href="http://quercusseg.unex.es") Quercus SEG
+                    |)
+
+            if rTitle != "404 Not Found"
+                div#dataLink
+                    a(href = dataUri)
+                        button#dataButton Get triples from resource
+
+        script(type="text/javascript").
+            point = "#{geoPoint}";
+            figure = "#{geoFigure}";
+            initializePoint(point);
+            initializeFigure(figure);
+
+            view = "#{defaultView}";
+
+            $(document).ready(function () {
+                initView(view);
+            });
+
+
+        script(async defer, src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt5CcFk1btCb9QpnwAmEtPNI7k4U3loEU&callback=initMap")

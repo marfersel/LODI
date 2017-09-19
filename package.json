@@ -1,0 +1,25 @@
+{
+  "name": "tfg",
+  "version": "1.0.0",
+  "description": "Visualizador universal de recursos OpenData",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha test",
+    "your-custom-script": "echo npm"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "pug": "latest",
+    "n3": "latest",
+    "geojson-validation": "latest",
+    "geojson": "latest",
+    "sync-request": "latest"
+  },
+  "devDependencies": {
+    "@types/googlemaps": "^3.26.14",
+    "mocha": "^3.4.2"
+  }
+}

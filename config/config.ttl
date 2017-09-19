@@ -1,0 +1,53 @@
+
+@prefix config: <http://example.org/config#> .
+@prefix meta: <http://example.org/metadata#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix om: <http://opendata.caceres.es/def/ontomunicipio#>.
+@prefix locn: <http://www.w3.org/ns/locn#>.
+@prefix schema: <http://schema.org/>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dbpedia: <http://localhost:8080/resource/> .
+@prefix p: <http://localhost:8080/property/> .
+@prefix yago: <http://localhost:8080/class/yago/> .
+@prefix units: <http://dbpedia.org/units/> .
+@prefix geonames: <http://www.geonames.org/ontology#> .
+@prefix prv:      <http://purl.org/net/provenance/ns#> .
+@prefix prvTypes: <http://purl.org/net/provenance/types#> .
+@prefix doap:     <http://usefulinc.com/ns/doap#> .
+@prefix void:     <http://rdfs.org/ns/void#> .
+@prefix ir:       <http://www.ontologydesignpatterns.org/cp/owl/informationrealization.owl#> .
+@prefix ou: <http://opendata.unex.es/def/ontouniversidad#> .
+@prefix teach: <http://linkedscience.org/teach/ns#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix datex: <http://vocab.datex.org/terms#> .
+
+# Server configuration section
+<> a config:Configuration;
+    config:projectName "Open Data Cáceres";
+    config:projectHomepage <http://opendata.caceres.es>;
+    config:projectLogo <https://pbs.twimg.com/profile_images/657508266793111553/xF2Vjccz_400x400.jpg>;
+
+    config:labelProperty rdfs:label, om:nombreAsociacion;
+    config:descriptionProperty rdfs:comment, dcterms:description, om:historiaVia;
+    config:longProperty geo:long;
+    config:latProperty geo:lat;
+    config:geoProperty schema:line, schema:polygon;
+    config:defaultView "user";
+
+    config:sparqlEndpoint <http://opendata.caceres.es/sparql>;
+    config:datasetBase <http://opendata.caceres.es/recurso/>;
+    config:webBase <http://localhost:8080/>;
+    config:webResourcePrefix "recurso/";
+    config:port "8080";
+.
+
+
+
+
