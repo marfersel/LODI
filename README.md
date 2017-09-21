@@ -1,16 +1,16 @@
 # LODI - Linked Open Data Inspector
 
-LODI is a Linked Open Data frontend for SPARQL endpoints. We will be able to watch all resource's information, including its attributes and relations. It has been written in Node.js.
+LODI is a Linked Open Data resources' frontend for SPARQL endpoints. We will be able to watch all resources' information, including its attributes and relations. It has been written in Node.js.
 
 ![LODI example](http://opendata.caceres.es/images/ckan/LODI.png)
 
 ## Features
 
-* Provides a simplte HTML interface for users and other more complete one for developers.
-* Provides the posibility of get resource's information in N3 format from developer's view.
+* Provides a simple HTML interface for users and a more complete one for developers.
+* Provides the posibility of getting resources' information in N3 format from developer's view.
 * Geospacial attributes will be displayed in a map.
-* Images with .jpg or .png will be recognized and displayed automatically.
-* Throw the configuration file you will be able to chose the SPARQL endpoint, as well as some host portal information, such us its name, logo and link.
+* Images with .jpg, .jpeg or .png will be recognized and displayed automatically.
+* Through the configuration file you will be able to choose the SPARQL endpoint, as well as some host portal information, such us its name, logo and link.
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ These instructions will get you a copy of the project up. See deployment for not
 
 More information at: [https://github.com/marfersel/LODI](https://github.com/marfersel/LODI)
 
-### Prerequisites
+### Pre requirements
 
 * Node.js >= 6.x
 
@@ -32,7 +32,7 @@ npm install --production
 
 ## Deployment
 
-First of all, it is necessary to edit file config/config.ttl. See config/ontology.txt to know how to use the properties.
+First of all, it is necessary to edit config/config.ttl file. See config/ontology.txt to know how to use the properties.
 After that, you can simply deploy the system by
 
 ```

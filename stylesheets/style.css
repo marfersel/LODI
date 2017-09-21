@@ -67,6 +67,7 @@ ul{
     vertical-align: 15px;
     display: inline-block;
     margin: 20px 20px 0 0;
+    font-size: 125%;
 }
 
 #types ul{
@@ -205,6 +206,10 @@ Collapsible lists
 .values ul{
     overflow: auto;
     max-height: 250px;
+}
+
+.values li {
+    padding-bottom: 10px;
 }
 
 /*

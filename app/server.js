@@ -62,12 +62,12 @@ http.createServer(function(request, response) {
         css = fs.readFileSync("./stylesheets/style.css", "utf8");
         response.write(css);
     }
-    else if (pathname == "favicon.ico"){
+    else if (pathname == "./img/favicon.ico"){
         response.writeHead(200, {'Content-Type': 'image/x-icon'});
         favicon = fs.readFileSync("./lod.ico");
         response.write(favicon);
     }
-    else if (pathname == "marker.png"){
+    else if (pathname == "./img/marker.png"){
         response.writeHead(200, {'Content-Type': 'image'});
         favicon = fs.readFileSync("./marker.png");
         response.write(favicon);
