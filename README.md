@@ -62,7 +62,7 @@ Developed under supervision of  [Quercus SEG](http://quercusseg.unex.es/).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under a Creative Commons Attribution 3.0 license
 
 ## Acknowledgments
 
