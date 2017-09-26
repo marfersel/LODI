@@ -316,6 +316,10 @@ function setContentPug(title, description, uri, types,
         }
     }
 
+    for (i = 0; i < types.length; i++){
+        addPrefix(prefixes, types[i].prefix);
+    }
+
     var prefixListFromConfig = configuration.getPrefixList();
     prefixes = prefixes.sort();
 
