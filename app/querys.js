@@ -55,7 +55,12 @@ function getData (uri,type) {
     // If the resource doesn't exist, it generates a 404 HTML Page.
     else{
         response.status = 404;
-        response.html = template.setError404(uri);
+        if (type == "page") {
+            response.html = template.setError404(uri);
+        }
+        else if (type == "data"){
+            response.data = "The requested resource does not exist at this server, or no information about it is available.";
+        }
     }
 
     return response;
