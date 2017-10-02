@@ -7,74 +7,73 @@ block content
 
     div.flex-container
 
-        if literalsPredicates.length > 0
+        if literalsPredicates.length > 0 || typedLiteralsPredicates.length > 0
             div.flex-element
-                h2.attributeTypeTitle Literals
-                ul.properties
-                    each literalPredicate in literalsPredicates
-                        - var i = 0;
-                        li.predicate
-                            a(href=literalPredicate.url).alignedTop
-                                span.alignedTop #{literalPredicate.prefix}:
-                                | #{literalPredicate.value}
-                            if literalPredicate.value == "sameAs"
-                                p.sameAs (For more information, check next link)
-                            div(id = literalPredicate.value).values
-                                ul
-                                    each literal in literals
-                                        if literalPredicate.url == literal.relation.url
-                                            if i < 5
-                                                li
-                                                    if literal.value.type != 'uri'
-                                                       | #{literal.value.value}
-                                                    else
-                                                        if literal.image == false
-                                                            a(href=literal.value.value) #{literal.value.value}
+                if literalsPredicates.length > 0
+                    h2.attributeTypeTitle Literals
+                    ul.properties
+                        each literalPredicate in literalsPredicates
+                            - var i = 0;
+                            li.predicate
+                                a(href=literalPredicate.url).alignedTop
+                                    span.alignedTop #{literalPredicate.prefix}:
+                                    | #{literalPredicate.value}
+                                if literalPredicate.value == "sameAs"
+                                    p.sameAs (For more information, check next link)
+                                div(id = literalPredicate.value).values
+                                    ul
+                                        each literal in literals
+                                            if literalPredicate.url == literal.relation.url
+                                                if i < 5
+                                                    li
+                                                        if literal.value.type != 'uri'
+                                                           | #{literal.value.value}
                                                         else
-                                                            img(src=literal.value.value)#resourceImg
-                                            else
-                                                li.hidden
-                                                    if literal.value.type != 'uri'
-                                                        | #{literal.value.value}
-                                                    else
-                                                        if literal.image == false
-                                                            a(href=literal.value.value) #{literal.value.value}
+                                                            if literal.image == false
+                                                                a(href=literal.value.value) #{literal.value.value}
+                                                            else
+                                                                img(src=literal.value.value)#resourceImg
+                                                else
+                                                    li.hidden
+                                                        if literal.value.type != 'uri'
+                                                            | #{literal.value.value}
                                                         else
-                                                            img(src=literal.value.value)#resourceImg
-                                            - i++;
+                                                            if literal.image == false
+                                                                a(href=literal.value.value) #{literal.value.value}
+                                                            else
+                                                                img(src=literal.value.value)#resourceImg
+                                                - i++;
 
-                        if i > 5
-                            button(class = "collapseButton" id = literalPredicate.value + "Button" onClick="showItems(\"" + literalPredicate.value + "\");") Show more
+                            if i > 5
+                                button(class = "collapseButton" id = literalPredicate.value + "Button" onClick="showItems(\"" + literalPredicate.value + "\");") Show more
 
+                if typedLiteralsPredicates.length > 0
+                    h2.attributeTypeTitle Typed Literals
+                    ul.properties
+                        each typedLiteralPredicate in typedLiteralsPredicates
+                            - var i = 0;
+                            li.predicate
+                                a(href=typedLiteralPredicate.url).alignedTop
+                                    span.alignedTop #{typedLiteralPredicate.prefix}:
+                                    | #{typedLiteralPredicate.value}
+                                div(id = typedLiteralPredicate.value).values
+                                    ul
+                                        each typedLiteral in typedLiterals
+                                            if typedLiteralPredicate.url == typedLiteral.relation.url
+                                                if i < 5
+                                                    li
+                                                        | #{typedLiteral.value.value}
+                                                        |
+                                                        span (#{typedLiteral.value.datatype})
+                                                else
+                                                    li.hidden
+                                                        | #{typedLiteral.value.value}
+                                                        |
+                                                        span (#{typedLiteral.value.datatype})
+                                                - i++;
 
-        if typedLiteralsPredicates.length > 0
-            div.flex-element
-                h2.attributeTypeTitle Typed Literals
-                ul.properties
-                    each typedLiteralPredicate in typedLiteralsPredicates
-                        - var i = 0;
-                        li.predicate
-                            a(href=typedLiteralPredicate.url).alignedTop
-                                span.alignedTop #{typedLiteralPredicate.prefix}:
-                                | #{typedLiteralPredicate.value}
-                            div(id = typedLiteralPredicate.value).values
-                                ul
-                                    each typedLiteral in typedLiterals
-                                        if typedLiteralPredicate.url == typedLiteral.relation.url
-                                            if i < 5
-                                                li
-                                                    | #{typedLiteral.value.value}
-                                                    |
-                                                    span (#{typedLiteral.value.datatype})
-                                            else
-                                                li.hidden
-                                                    | #{typedLiteral.value.value}
-                                                    |
-                                                    span (#{typedLiteral.value.datatype})
-                                            - i++;
-
-                        if i > 5
-                            button(class = "collapseButton" id = typedLiteralPredicate.value + "Button" onClick="showItems(\"" + typedLiteralPredicate.value + "\");") Show more
+                            if i > 5
+                                button(class = "collapseButton" id = typedLiteralPredicate.value + "Button" onClick="showItems(\"" + typedLiteralPredicate.value + "\");") Show more
 
         if relationsPredicates.length > 0
             div.flex-element
@@ -185,7 +184,43 @@ block content
                                                     | ]
                                             else
                                                 li.hidden
-                                                    a(href=datasetBase + blankNode.nodeID) Anonymous resource (#{blankNode.nodeID})
+                                                    | [
+                                                    span
+                                                        a(href=datasetBase + blankNode.nodeID) Anonymous resource
+                                                            |
+                                                            | (#{blankNode.nodeID})
+                                                    |
+                                                    |
+                                                    div.bnodeTypes
+                                                        | (
+                                                        each type in blankNode.types
+                                                            a(href=type.url).alignedTop
+                                                                span.alignedTop #{type.prefix}:
+                                                                | #{type.value}
+                                                        | )
+                                                    ul
+                                                        each attribute in blankNode.attributes
+                                                            if attribute.type != "type"
+                                                                li
+                                                                    a(href=attribute.relation.url).alignedTop
+                                                                        span.alignedTop #{attribute.relation.prefix}:
+                                                                        | #{attribute.relation.value}
+                                                                    |
+                                                                    |
+                                                                    case attribute.type
+                                                                        when "literal"
+                                                                        when "typed-literal"
+                                                                            | #{attribute.value}
+                                                                        when "bnode"
+                                                                            a(href=datasetBase + attribute.value) Anonymous resource
+                                                                                span (#{attribute.value})
+                                                                            |
+                                                                        when "uri"
+                                                                            a #{attribute.value}
+                                                                        when "image"
+                                                                            img(src=attribute.value)#resourceImg
+
+                                                    | ]
                                             - i++;
 
                         if i > 5

@@ -81,7 +81,7 @@ function setContentPug(title, description, uri, types,
             replaceType(typedLiterals[element].value);
 
             if (typedLiterals[element].value.datatype == "xsd:boolean"){
-                if (typedLiterals[element].value.value){
+                if (typedLiterals[element].value.value == "1"){
                     typedLiterals[element].value.value = "True";
                 }
                 else{
