@@ -189,6 +189,9 @@ function setContentPug(title, description, uri, types,
             //     configuration.getProperty("webResourcePrefix")[0].replace(new RegExp("\"", 'g'), ""));
             reverseRelations[element].value.url = reverseRelations[element].value.value;
 
+            // Check if the reverse resource is a blank node
+            reverseRelations[element].value.blankNode = reverseRelations[element].value.value.startsWith("nodeID");
+
             if (reverseRelations[element].title != "") {
                 reverseRelations[element].value.value = reverseRelations[element].title;
             }

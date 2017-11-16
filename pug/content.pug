@@ -119,10 +119,22 @@ block content
                                         if reverseRelationPredicate.url == relation.relation.url
                                             if i < 5
                                                 li
-                                                    a(href=relation.value.url) #{relation.value.value}
+                                                    if relation.value.blankNode == true
+                                                        a(href=datasetBase + relation.value.url) Anonymous resource
+                                                            |
+                                                            |
+                                                            span (#{relation.value.value})
+                                                    else
+                                                        a(href=relation.value.url) #{relation.value.value}
                                             else
                                                 li.hidden
-                                                    a(href=relation.value.url) #{relation.value.value}
+                                                    if relation.value.blankNode == true
+                                                        a(href=datasetBase + relation.value.url) Anonymous resource
+                                                            |
+                                                            |
+                                                            span (#{relation.value.value})
+                                                    else
+                                                        a(href=relation.value.url) #{relation.value.value}
 
                                             - i++;
 

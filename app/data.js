@@ -217,7 +217,7 @@ function processDataForPage (data, uri, blankNode){
         title = getTitleFromURI(uri);
 
         if (blankNode){
-            title = "Recurso anónimo (" + title + ")";
+            title = "Anonymous resource (" + title + ")";
         }
     }
 
