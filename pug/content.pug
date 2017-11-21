@@ -189,7 +189,7 @@ block content
                                                                                 span (#{attribute.value})
                                                                             |
                                                                         when "uri"
-                                                                            a #{attribute.value}
+                                                                            a(href=attribute.value) #{attribute.value}
                                                                         when "image"
                                                                             img(src=attribute.value)#resourceImg
 
@@ -228,7 +228,7 @@ block content
                                                                                 span (#{attribute.value})
                                                                             |
                                                                         when "uri"
-                                                                            a #{attribute.value}
+                                                                            a(href=attribute.value) #{attribute.value}
                                                                         when "image"
                                                                             img(src=attribute.value)#resourceImg
 
