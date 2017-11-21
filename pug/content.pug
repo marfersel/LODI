@@ -34,7 +34,7 @@ block content
                                                             else
                                                                 img(src=literal.value.value)#resourceImg
                                                 else
-                                                    li.hidden
+                                                    li.displayed
                                                         if literal.value.type != 'uri'
                                                             | #{literal.value.value}
                                                         else
@@ -45,7 +45,7 @@ block content
                                                 - i++;
 
                             if i > 5
-                                button(class = "collapseButton" id = literalPredicate.value + "Button" onClick="showItems(\"" + literalPredicate.value + "\");") Show more
+                                button(class = "collapseButton" id = literalPredicate.value + "Button" onClick="showItems(\"" + literalPredicate.value + "\");") Show less
 
                 if typedLiteralsPredicates.length > 0
                     h2.attributeTypeTitle Typed Literals
@@ -66,14 +66,14 @@ block content
                                                         |
                                                         span (#{typedLiteral.value.datatype})
                                                 else
-                                                    li.hidden
+                                                    li.displayed
                                                         | #{typedLiteral.value.value}
                                                         |
                                                         span (#{typedLiteral.value.datatype})
                                                 - i++;
 
                             if i > 5
-                                button(class = "collapseButton" id = typedLiteralPredicate.value + "Button" onClick="showItems(\"" + typedLiteralPredicate.value + "\");") Show more
+                                button(class = "collapseButton" id = typedLiteralPredicate.value + "Button" onClick="showItems(\"" + typedLiteralPredicate.value + "\");") Show less
 
         if relationsPredicates.length > 0
             div.flex-element
@@ -93,12 +93,12 @@ block content
                                                 li
                                                     a(href=relation.value.url) #{relation.value.value}
                                             else
-                                                li.hidden
+                                                li.displayed
                                                     a(href=relation.value.url) #{relation.value.value}
                                             - i++;
 
                         if i > 5
-                            button(class = "collapseButton" id = relationPredicate.value +"Button" onClick="showItems(\""+relationPredicate.value+"\");") Show more
+                            button(class = "collapseButton" id = relationPredicate.value +"Button" onClick="showItems(\""+relationPredicate.value+"\");") Show less
 
 
         if reverseRelationsPredicates.length > 0
@@ -127,7 +127,7 @@ block content
                                                     else
                                                         a(href=relation.value.url) #{relation.value.value}
                                             else
-                                                li.hidden
+                                                li.displayed
                                                     if relation.value.blankNode == true
                                                         a(href=datasetBase + relation.value.url) Anonymous resource
                                                             |
@@ -139,7 +139,7 @@ block content
                                             - i++;
 
                         if i > 5
-                            button(class = "collapseButton" id = reverseRelationPredicate.value + "Button" onClick="showItems(\"" + reverseRelationPredicate.value + "\");") Show more
+                            button(class = "collapseButton" id = reverseRelationPredicate.value + "Button" onClick="showItems(\"" + reverseRelationPredicate.value + "\");") Show less
 
         if blankNodesPredicates.length > 0
             div.flex-element
@@ -195,7 +195,7 @@ block content
 
                                                     | ]
                                             else
-                                                li.hidden
+                                                li.displayed
                                                     | [
                                                     span
                                                         a(href=datasetBase + blankNode.nodeID) Anonymous resource
@@ -236,7 +236,7 @@ block content
                                             - i++;
 
                         if i > 5
-                            button(class = "collapseButton" id = blankNodePredicate.value + "Button" onClick="showItems(\"" + blankNodePredicate.value + "\");") Show more
+                            button(class = "collapseButton" id = blankNodePredicate.value + "Button" onClick="showItems(\"" + blankNodePredicate.value + "\");") Show less
 
         if geometriesPredicates.length > 0
             div#geometricAttributes.flex-element
@@ -249,8 +249,8 @@ block content
                                 ul
                                     each geometry in geometries
                                         if geometriyPredicate.url == geometry.relation.url
-                                            li.hidden #{geometry.value}
-                        button(class = "geometryButton collapseButton" id = geometriyPredicate.value + "Button" onClick="showItems(\"" + geometriyPredicate.value + "\");") Show more
+                                            li.displayed #{geometry.value}
+                        button(class = "geometryButton collapseButton" id = geometriyPredicate.value + "Button" onClick="showItems(\"" + geometriyPredicate.value + "\");") Show less
 
         if pointsPredicates.length > 0
             div.flex-element
