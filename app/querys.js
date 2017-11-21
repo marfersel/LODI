@@ -28,6 +28,8 @@ function getData (uri,type) {
     // Generates the query
     var sparqlQuery = generateQuery(uri);
 
+    console.log(sparqlQuery);
+
     // Get SPARQL Endpoint from configuration file
     var endpoint = configuration.getProperty("sparqlEndpoint");
 
@@ -78,10 +80,11 @@ function generateQuery(uri) {
 
     var queryDirect = "{<"+uri+"> ?p ?o . " +
         "OPTIONAL{?o ?n ?m. } " +
-        "OPTIONAL{SELECT ?o ?b ?m WHERE{" +
-        "<"+uri+"> ?p ?o. " +
-        "?o ?b ?m. " +
-        "FILTER isBlank(?o). " +
+        "OPTIONAL{SELECT ?o ?b ?m ";
+
+    var queryContentBlank = "<"+uri+"> ?p ?o. " +
+        "?o ?b ?m. " ;
+    var queryFilterBlank = "FILTER isBlank(?o). " +
         "} " +
         "} ";
 
@@ -102,14 +105,16 @@ function generateQuery(uri) {
             prefixProcessed = data.processPrefix(prefixes[prefix]);
 
             querySelect += "?" + prefixProcessed.value + " ";
-            queryDirect += "OPTIONAL{?o " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
+            queryFilterBlank += "OPTIONAL{?o " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
+            queryDirect += "?" + prefixProcessed.value + " ";
+            queryContentBlank += "OPTIONAL{?m " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
             queryReverse += "OPTIONAL{?x " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
 
             queryEnd += " ?" + prefixProcessed.value;
         }
     }
 
-    return querySelect + queryWhere + queryDirect + queryUnion + queryReverse + queryEnd;
+    return querySelect + queryWhere + queryDirect + queryWhere + queryContentBlank + queryFilterBlank + queryUnion + queryReverse + queryEnd;
 }
 
 /*

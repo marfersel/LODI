@@ -129,16 +129,29 @@ function processDataForPage (data, uri, blankNode){
                                     valueAux = results[element][vars[2]].value;
                                 }
 
+                                relationTitle = "";
+
+                                for (var j = 6; j < vars.length; j++) {
+
+                                    if (results[element][vars[j]] != undefined) {
+                                        relationTitle = results[element][vars[j]].value;
+                                        type = "relation";
+                                        break;
+                                    }
+                                }
+
                                 if (blankNodes.hasOwnProperty(nodeID)){
                                     blankNodes[nodeID].attributes.push(
                                         {relation: processPrefix(relation),
                                         value: valueAux,
-                                        type: type});
+                                        type: type,
+                                        title: relationTitle});
                                 } else{
                                     blankNodes[nodeID] = {relation: relationProcessed,
                                         attributes: [{relation: processPrefix(relation),
                                                     value: valueAux,
-                                                    type: type}]};
+                                                    type: type,
+                                                    title: relationTitle}]};
                                 }
 
                                 break;

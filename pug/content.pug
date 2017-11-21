@@ -190,6 +190,8 @@ block content
                                                                             |
                                                                         when "uri"
                                                                             a(href=attribute.value) #{attribute.value}
+                                                                        when "relation"
+                                                                            a(href=attribute.value) #{attribute.title}
                                                                         when "image"
                                                                             img(src=attribute.value)#resourceImg
 
@@ -229,6 +231,8 @@ block content
                                                                             |
                                                                         when "uri"
                                                                             a(href=attribute.value) #{attribute.value}
+                                                                        when "relation"
+                                                                            a(href=attribute.value) #{attribute.title}
                                                                         when "image"
                                                                             img(src=attribute.value)#resourceImg
 
