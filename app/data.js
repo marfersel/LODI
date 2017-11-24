@@ -27,7 +27,7 @@ function processDataForPage (data, uri, blankNode){
     var vars = dataJSON['head']['vars'];
     var results = dataJSON['results']['bindings'];
 
-    var element, relation;
+    var element, relation, nodeID;
 
     var literals = [];
     var typedLiterals = [];
@@ -35,6 +35,7 @@ function processDataForPage (data, uri, blankNode){
     var reverseRelations = [];
 
     var blankNodes = {};
+    var reverseBlankNodes = {};
 
     var geometries = [];
     var points = [];
@@ -117,7 +118,7 @@ function processDataForPage (data, uri, blankNode){
 
                             case "bnode": // Blanck node
 
-                                var nodeID = results[element][vars[1]].value;
+                                nodeID = results[element][vars[1]].value;
                                 relation = results[element][vars[5]].value;
 
                                 if (isType(relation)){
@@ -197,21 +198,65 @@ function processDataForPage (data, uri, blankNode){
                 relation = results[element][vars[4]].value;
                 relationProcessed = processPrefix(relation);
 
-                relationTitle = "";
+                // Check if the reverse object is a bnode in order to display its attributes
+                if (results[element][vars[3]].type == "bnode"){
 
-                for (i = 5; i < vars.length; i++) {
+                    nodeID = results[element][vars[3]].value;
+                    var bNodeRelation = results[element][vars[5]].value;
 
-                    if (results[element][vars[i]] != undefined) {
-                        relationTitle = results[element][vars[i]].value;
-                        break;
+                    if (isType(bNodeRelation)){
+                        type = "type";
+                        valueAux = processPrefix(results[element][vars[2]].value);
                     }
-                }
+                    else{
+                        type = results[element][vars[2]].type;
+                        valueAux = results[element][vars[2]].value;
+                    }
 
-                reverseRelations.push({
-                    relation: relationProcessed,
-                    value: results[element][vars[3]],
-                    title: relationTitle
-                });
+                    relationTitle = "";
+
+                    for (var k = 6; k < vars.length; k++) {
+
+                        if (results[element][vars[k]] != undefined) {
+                            relationTitle = results[element][vars[k]].value;
+                            type = "relation";
+                            break;
+                        }
+                    }
+
+                    if (reverseBlankNodes.hasOwnProperty(nodeID)){
+                        reverseBlankNodes[nodeID].attributes.push(
+                            {relation: processPrefix(bNodeRelation),
+                                value: valueAux,
+                                type: type,
+                                title: relationTitle});
+                    } else{
+                        reverseBlankNodes[nodeID] = {relation: relationProcessed,
+                            attributes: [{relation: processPrefix(bNodeRelation),
+                                value: valueAux,
+                                type: type,
+                                title: relationTitle}]};
+                    }
+
+                }
+                else{
+
+                    relationTitle = "";
+
+                    for (i = 5; i < vars.length; i++) {
+
+                        if (results[element][vars[i]] != undefined) {
+                            relationTitle = results[element][vars[i]].value;
+                            break;
+                        }
+                    }
+
+                    reverseRelations.push({
+                        relation: relationProcessed,
+                        value: results[element][vars[3]],
+                        title: relationTitle
+                    });
+                }
             }
         }
     }
@@ -240,7 +285,7 @@ function processDataForPage (data, uri, blankNode){
         relations,
         typedLiterals.sort(function (a, b) {return a.relation.value > b.relation.value;}),
         reverseRelations.sort(function (a, b) {return a.relation.value > b.relation.value;}),
-        blankNodes, geometries, points);
+        reverseBlankNodes, blankNodes, geometries, points);
 
 }
 

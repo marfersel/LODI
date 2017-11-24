@@ -16,13 +16,15 @@ Once all the attributes and relations are processed and organized by their type,
 HTML template to be displayed
  */
 function setContentPug(title, description, uri, types,
-                       literals, relations, typedLiterals, reverseRelations, blankNodes, geometries, points){
+                       literals, relations, typedLiterals, reverseRelations,
+                       reverseBlankNodes, blankNodes, geometries, points){
 
     var element;
     var literalsValues = [];
     var typedLiteralsValues = [];
     var relationsValues = [];
     var blankNodesValues = [];
+    var reverseBlankNodesValues = [];
     var reverseRelationsValues = [];
 
     var geometriesValues = [];
@@ -34,6 +36,7 @@ function setContentPug(title, description, uri, types,
     var typedLiteralsPredicates = [];
     var relationsPredicates = [];
     var blankNodesPredicates = [];
+    var reverseBlankNodesPredicates = [];
     var reverseRelationsPredicates = [];
     var geometriesPredicates = [];
     var pointsPredicates = [];
@@ -141,11 +144,13 @@ function setContentPug(title, description, uri, types,
         }
     }
 
+    var blankTypes;
+
     var keys = Object.keys(blankNodes);
 
     for (var key in keys){
 
-        var blankTypes = [];
+        blankTypes = [];
 
         for (element in blankNodes[keys[key]].attributes){
             if (blankNodes[keys[key]].attributes.hasOwnProperty(element)) {
@@ -178,6 +183,43 @@ function setContentPug(title, description, uri, types,
         }
     }
 
+    keys = Object.keys(reverseBlankNodes);
+
+    for (key in keys){
+
+        blankTypes = [];
+
+        for (element in reverseBlankNodes[keys[key]].attributes){
+            if (reverseBlankNodes[keys[key]].attributes.hasOwnProperty(element)) {
+                if (reverseBlankNodes[keys[key]].attributes[element].type == "type") {
+                    blankTypes.push(reverseBlankNodes[keys[key]].attributes[element].value);
+                }
+                else{
+
+                    if (isImage(reverseBlankNodes[keys[key]].attributes[element])){
+                        reverseBlankNodes[keys[key]].attributes[element].type = "image";
+                    }
+                }
+            }
+        }
+
+        ele = {relation: reverseBlankNodes[keys[key]].relation, nodeID: keys[key], types: blankTypes, attributes: reverseBlankNodes[keys[key]].attributes};
+        reverseBlankNodesValues.push(ele);
+
+        found = false;
+        for (i = 0; i < reverseBlankNodesPredicates.length; i++) {
+            if (reverseBlankNodesPredicates[i].url == reverseBlankNodes[keys[key]].relation.url) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            reverseBlankNodesPredicates.push(reverseBlankNodes[keys[key]].relation);
+            addPrefix(prefixes, reverseBlankNodes[keys[key]].relation.prefix);
+        }
+    }
+
     for (element in reverseRelations){
         if (reverseRelations.hasOwnProperty(element)) {
 
@@ -188,9 +230,6 @@ function setContentPug(title, description, uri, types,
             //     configuration.getProperty("webBase")[0] +
             //     configuration.getProperty("webResourcePrefix")[0].replace(new RegExp("\"", 'g'), ""));
             reverseRelations[element].value.url = reverseRelations[element].value.value;
-
-            // Check if the reverse resource is a blank node
-            reverseRelations[element].value.blankNode = reverseRelations[element].value.value.startsWith("nodeID");
 
             if (reverseRelations[element].title != "") {
                 reverseRelations[element].value.value = reverseRelations[element].title;
@@ -364,6 +403,7 @@ function setContentPug(title, description, uri, types,
         relations: relationsValues,
         blankNodes: blankNodesValues,
         reverseRelations: reverseRelationsValues,
+        reverseBlankNodes: reverseBlankNodesValues,
         geometries: geometriesValues,
         points: pointsValues,
 
@@ -375,6 +415,7 @@ function setContentPug(title, description, uri, types,
         relationsPredicates: relationsPredicates,
         blankNodesPredicates: blankNodesPredicates,
         reverseRelationsPredicates: reverseRelationsPredicates,
+        reverseBlankNodesPredicates: reverseBlankNodesPredicates,
         geometriesPredicates: geometriesPredicates,
         pointsPredicates: pointsPredicates,
 

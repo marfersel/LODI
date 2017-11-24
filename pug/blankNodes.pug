@@ -1,0 +1,42 @@
+if blankNodePredicate.url == blankNode.relation.url
+    li(class=i<5 ? "" : "displayed")
+        | [
+        span
+            a(href=datasetBase + blankNode.nodeID) Anonymous resource
+                |
+                | (#{blankNode.nodeID})
+        |
+        |
+        div.bnodeTypes
+            | (
+            each type in blankNode.types
+                a(href=type.url).alignedTop
+                    span.alignedTop #{type.prefix}:
+                    | #{type.value}
+            | )
+        ul
+            each attribute in blankNode.attributes
+                if attribute.type != "type"
+                    li
+                        a(href=attribute.relation.url).alignedTop
+                            span.alignedTop #{attribute.relation.prefix}:
+                            | #{attribute.relation.value}
+                        |
+                        |
+                        case attribute.type
+                            when "literal"
+                            when "typed-literal"
+                                | #{attribute.value}
+                            when "bnode"
+                                a(href=datasetBase + attribute.value) Anonymous resource
+                                    span (#{attribute.value})
+                                |
+                            when "uri"
+                                a(href=attribute.value) #{attribute.value}
+                            when "relation"
+                                a(href=attribute.value) #{attribute.title}
+                            when "image"
+                                img(src=attribute.value)#resourceImg
+
+        | ]
+    - i++;

@@ -28,8 +28,6 @@ function getData (uri,type) {
     // Generates the query
     var sparqlQuery = generateQuery(uri);
 
-    console.log(sparqlQuery);
-
     // Get SPARQL Endpoint from configuration file
     var endpoint = configuration.getProperty("sparqlEndpoint");
 
@@ -90,6 +88,14 @@ function generateQuery(uri) {
 
     var queryUnion = "} UNION ";
     var queryReverse = "{?x ?y <"+uri+">. ";
+
+    var queryReverseSelect = "OPTIONAL{SELECT ?x ?b ?m ";
+    var queryReverseWhere = "WHERE{?x ?y <"+uri+">. "+
+                            "?x ?b ?m. ";
+    var queryReverseFilterBlank = "FILTER isBlank(?x). " +
+        "} " +
+        "} ";
+
     var queryEnd = "}}";
 
     var prefixes = configuration.getProperty("labelProperty");
@@ -110,11 +116,14 @@ function generateQuery(uri) {
             queryContentBlank += "OPTIONAL{?m " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
             queryReverse += "OPTIONAL{?x " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
 
+            queryReverseSelect += "?" + prefixProcessed.value + " ";
+            queryReverseWhere += "OPTIONAL{?m " + prefixProcessed.prefix + ":" + prefixProcessed.value + " ?" + prefixProcessed.value + ". }. ";
+
             queryEnd += " ?" + prefixProcessed.value;
         }
     }
 
-    return querySelect + queryWhere + queryDirect + queryWhere + queryContentBlank + queryFilterBlank + queryUnion + queryReverse + queryEnd;
+    return querySelect + queryWhere + queryDirect + queryWhere + queryContentBlank + queryFilterBlank + queryUnion + queryReverse + queryReverseSelect + queryReverseWhere + queryReverseFilterBlank + queryEnd;
 }
 
 /*

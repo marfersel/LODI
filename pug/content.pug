@@ -24,24 +24,14 @@ block content
                                     ul
                                         each literal in literals
                                             if literalPredicate.url == literal.relation.url
-                                                if i < 5
-                                                    li
-                                                        if literal.value.type != 'uri'
-                                                           | #{literal.value.value}
+                                                li(class=i<5 ? "" : "displayed")
+                                                    if literal.value.type != 'uri'
+                                                        | #{literal.value.value}
+                                                    else
+                                                        if literal.image == false
+                                                            a(href=literal.value.value) #{literal.value.value}
                                                         else
-                                                            if literal.image == false
-                                                                a(href=literal.value.value) #{literal.value.value}
-                                                            else
-                                                                img(src=literal.value.value)#resourceImg
-                                                else
-                                                    li.displayed
-                                                        if literal.value.type != 'uri'
-                                                            | #{literal.value.value}
-                                                        else
-                                                            if literal.image == false
-                                                                a(href=literal.value.value) #{literal.value.value}
-                                                            else
-                                                                img(src=literal.value.value)#resourceImg
+                                                            img(src=literal.value.value)#resourceImg
                                                 - i++;
 
                             if i > 5
@@ -60,16 +50,10 @@ block content
                                     ul
                                         each typedLiteral in typedLiterals
                                             if typedLiteralPredicate.url == typedLiteral.relation.url
-                                                if i < 5
-                                                    li
-                                                        | #{typedLiteral.value.value}
-                                                        |
-                                                        span (#{typedLiteral.value.datatype})
-                                                else
-                                                    li.displayed
-                                                        | #{typedLiteral.value.value}
-                                                        |
-                                                        span (#{typedLiteral.value.datatype})
+                                                li(class=i<5 ? "" : "displayed")
+                                                    | #{typedLiteral.value.value}
+                                                    |
+                                                    span (#{typedLiteral.value.datatype})
                                                 - i++;
 
                             if i > 5
@@ -89,57 +73,57 @@ block content
                                 ul
                                     each relation in relations
                                         if relationPredicate.url == relation.relation.url
-                                            if i < 5
-                                                li
-                                                    a(href=relation.value.url) #{relation.value.value}
-                                            else
-                                                li.displayed
-                                                    a(href=relation.value.url) #{relation.value.value}
+                                            li(class=i<5 ? "" : "displayed")
+                                                a(href=relation.value.url) #{relation.value.value}
                                             - i++;
 
                         if i > 5
                             button(class = "collapseButton" id = relationPredicate.value +"Button" onClick="showItems(\""+relationPredicate.value+"\");") Show less
 
 
-        if reverseRelationsPredicates.length > 0
+        if reverseRelationsPredicates.length > 0 || reverseBlankNodesPredicates.length > 0
             div.flex-element
-                h2.attributeTypeTitle Inverse relations
-                ul.properties
-                    each reverseRelationPredicate in reverseRelationsPredicates
-                        - var i = 0;
-                        li.predicate
-                            | Has related:
-                            |
-                            a(href=reverseRelationPredicate.url).alignedTop
-                                span.alignedTop #{reverseRelationPredicate.prefix}:
-                                | #{reverseRelationPredicate.value}
-                            div(id = reverseRelationPredicate.value).values
-                                ul
-                                    each relation in reverseRelations
-                                        if reverseRelationPredicate.url == relation.relation.url
-                                            if i < 5
-                                                li
-                                                    if relation.value.blankNode == true
-                                                        a(href=datasetBase + relation.value.url) Anonymous resource
-                                                            |
-                                                            |
-                                                            span (#{relation.value.value})
-                                                    else
-                                                        a(href=relation.value.url) #{relation.value.value}
-                                            else
-                                                li.displayed
-                                                    if relation.value.blankNode == true
-                                                        a(href=datasetBase + relation.value.url) Anonymous resource
-                                                            |
-                                                            |
-                                                            span (#{relation.value.value})
-                                                    else
-                                                        a(href=relation.value.url) #{relation.value.value}
+                if reverseRelationsPredicates.length > 0
+                    h2.attributeTypeTitle Inverse Relations
+                    ul.properties
+                        each reverseRelationPredicate in reverseRelationsPredicates
+                            - var i = 0;
+                            li.predicate
+                                | Has related:
+                                |
+                                a(href=reverseRelationPredicate.url).alignedTop
+                                    span.alignedTop #{reverseRelationPredicate.prefix}:
+                                    | #{reverseRelationPredicate.value}
+                                div(id = reverseRelationPredicate.value).values
+                                    ul
+                                        each relation in reverseRelations
+                                            if reverseRelationPredicate.url == relation.relation.url
+                                                li(class=i<5 ? "" : "displayed")
+                                                    a(href=relation.value.url) #{relation.value.value}
 
-                                            - i++;
+                                                - i++;
 
-                        if i > 5
-                            button(class = "collapseButton" id = reverseRelationPredicate.value + "Button" onClick="showItems(\"" + reverseRelationPredicate.value + "\");") Show less
+                            if i > 5
+                                button(class = "collapseButton" id = reverseRelationPredicate.value + "Button" onClick="showItems(\"" + reverseRelationPredicate.value + "\");") Show less
+
+                if reverseBlankNodesPredicates.length > 0
+                    h2.attributeTypeTitle Inverse Blank Nodes
+                    ul.properties
+                        each blankNodePredicate in reverseBlankNodesPredicates
+                            - var i = 0;
+                            li.predicate
+                                | Has related:
+                                |
+                                a(href=blankNodePredicate.url).alignedTop
+                                    span.alignedTop #{blankNodePredicate.prefix}:
+                                    | #{blankNodePredicate.value}
+                                div(id = blankNodePredicate.value).values
+                                    ul
+                                        each blankNode in reverseBlankNodes
+                                            include blankNodes
+
+                            if i > 5
+                                button(class = "collapseButton" id = blankNodePredicate.value + "Button" onClick="showItems(\"" + blankNodePredicate.value + "\");") Show less
 
         if blankNodesPredicates.length > 0
             div.flex-element
@@ -154,90 +138,7 @@ block content
                             div(id = blankNodePredicate.value).values
                                 ul
                                     each blankNode in blankNodes
-                                        if blankNodePredicate.url == blankNode.relation.url
-                                            if i < 5
-                                                li
-                                                    | [
-                                                    span
-                                                        a(href=datasetBase + blankNode.nodeID) Anonymous resource
-                                                            |
-                                                            | (#{blankNode.nodeID})
-                                                    |
-                                                    |
-                                                    div.bnodeTypes
-                                                        |(
-                                                        each type in blankNode.types
-                                                            a(href=type.url).alignedTop
-                                                                span.alignedTop #{type.prefix}:
-                                                                | #{type.value}
-                                                        |)
-                                                    ul
-                                                        each attribute in blankNode.attributes
-                                                            if attribute.type != "type"
-                                                                li
-                                                                    a(href=attribute.relation.url).alignedTop
-                                                                        span.alignedTop #{attribute.relation.prefix}:
-                                                                        | #{attribute.relation.value}
-                                                                    |
-                                                                    |
-                                                                    case attribute.type
-                                                                        when "literal"
-                                                                        when "typed-literal"
-                                                                            | #{attribute.value}
-                                                                        when "bnode"
-                                                                            a(href=datasetBase + attribute.value) Anonymous resource
-                                                                                span (#{attribute.value})
-                                                                            |
-                                                                        when "uri"
-                                                                            a(href=attribute.value) #{attribute.value}
-                                                                        when "relation"
-                                                                            a(href=attribute.value) #{attribute.title}
-                                                                        when "image"
-                                                                            img(src=attribute.value)#resourceImg
-
-                                                    | ]
-                                            else
-                                                li.displayed
-                                                    | [
-                                                    span
-                                                        a(href=datasetBase + blankNode.nodeID) Anonymous resource
-                                                            |
-                                                            | (#{blankNode.nodeID})
-                                                    |
-                                                    |
-                                                    div.bnodeTypes
-                                                        | (
-                                                        each type in blankNode.types
-                                                            a(href=type.url).alignedTop
-                                                                span.alignedTop #{type.prefix}:
-                                                                | #{type.value}
-                                                        | )
-                                                    ul
-                                                        each attribute in blankNode.attributes
-                                                            if attribute.type != "type"
-                                                                li
-                                                                    a(href=attribute.relation.url).alignedTop
-                                                                        span.alignedTop #{attribute.relation.prefix}:
-                                                                        | #{attribute.relation.value}
-                                                                    |
-                                                                    |
-                                                                    case attribute.type
-                                                                        when "literal"
-                                                                        when "typed-literal"
-                                                                            | #{attribute.value}
-                                                                        when "bnode"
-                                                                            a(href=datasetBase + attribute.value) Anonymous resource
-                                                                                span (#{attribute.value})
-                                                                            |
-                                                                        when "uri"
-                                                                            a(href=attribute.value) #{attribute.value}
-                                                                        when "relation"
-                                                                            a(href=attribute.value) #{attribute.title}
-                                                                        when "image"
-                                                                            img(src=attribute.value)#resourceImg
-
-                                                    | ]
-                                            - i++;
+                                        include blankNodes
 
                         if i > 5
                             button(class = "collapseButton" id = blankNodePredicate.value + "Button" onClick="showItems(\"" + blankNodePredicate.value + "\");") Show less
