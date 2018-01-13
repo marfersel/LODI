@@ -449,14 +449,14 @@ function isImage(attribute) {
     var image = false;
 
     if (attribute.type == "uri"){
-        if (attribute.value.toLowerCase().endsWith(".jpg") ||
-            attribute.value.toLowerCase().endsWith(".jpeg") ||
-            attribute.value.toLowerCase().endsWith(".png")) {
-
+        attributeValue = attribute.value.toLowerCase();
+        if (attributeValue.endsWith(".jpg") ||
+            attributeValue.endsWith(".jpeg") ||
+            attributeValue.endsWith(".png") ||
+            attributeValue.endsWith(".gif")) {
             image = true;
         }
     }
-
     return image;
 }
 
