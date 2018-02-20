@@ -38,27 +38,41 @@ function getData (uri,type) {
 
     var response = {status: status};
 
-    var dataJSON = JSON.parse(res.getBody());
-    var results = dataJSON['results']['bindings'];
+    if (status == 200) {
 
-    // If there are results, the resource exists and it is processed
-    if (results.length > 0) {
+        var dataJSON = JSON.parse(res.getBody());
+        var results = dataJSON['results']['bindings'];
 
-        if (type == "page") {
-            response.html = data.processDataForPage(res.getBody(), uri, blankNode);
+        // If there are results, the resource exists and it is processed
+        if (results.length > 0) {
+
+            if (type == "page") {
+                response.html = data.processDataForPage(res.getBody(), uri, blankNode);
+            }
+            else if (type == "data") {
+                response.data = data.processData(res.getBody(), uri);
+            }
         }
-        else if (type == "data"){
-            response.data = data.processData(res.getBody(), uri);
+
+        // If the resource doesn't exist, it generates a 404 HTML Page.
+        else {
+            response.status = 404;
+            if (type == "page") {
+                response.html = template.setError404(uri);
+            }
+            else if (type == "data") {
+                response.data = "The requested resource does not exist at this server, or no information about it is available.";
+            }
         }
     }
 
     // If the resource doesn't exist, it generates a 404 HTML Page.
-    else{
+    else {
         response.status = 404;
         if (type == "page") {
             response.html = template.setError404(uri);
         }
-        else if (type == "data"){
+        else if (type == "data") {
             response.data = "The requested resource does not exist at this server, or no information about it is available.";
         }
     }

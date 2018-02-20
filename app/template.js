@@ -449,7 +449,7 @@ function isImage(attribute) {
     var image = false;
 
     if (attribute.type == "uri"){
-        attributeValue = attribute.value.toLowerCase();
+        var attributeValue = attribute.value.toLowerCase();
         if (attributeValue.endsWith(".jpg") ||
             attributeValue.endsWith(".jpeg") ||
             attributeValue.endsWith(".png") ||
@@ -464,25 +464,7 @@ function isImage(attribute) {
 It replaces the resource's type for another with reduced prefix to be displayed
  */
 function replaceType(literal) {
-
-    switch (literal.datatype){
-        case "http://www.w3.org/2001/XMLSchema#int":
-        case "http://www.w3.org/2001/XMLSchema#integer":
-            literal.datatype = "xsd:integer";
-            break;
-        case "http://www.w3.org/2001/XMLSchema#decimal":
-            literal.datatype = "xsd:decimal";
-            break;
-        case "http://www.w3.org/2001/XMLSchema#double":
-            literal.datatype = "xsd:double";
-            break;
-        case "http://www.w3.org/2001/XMLSchema#boolean":
-            literal.datatype = "xsd:boolean";
-            break;
-        case "http://www.w3.org/2001/XMLSchema#dateTime":
-            literal.datatype = "xsd:dateTime";
-            break;
-    }
+    literal.datatype = literal.datatype.replace("http://www.w3.org/2001/XMLSchema#", "xsd:");
 }
 
 /*
