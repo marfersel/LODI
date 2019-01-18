@@ -13,13 +13,13 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "pug": "latest",
-    "n3": "latest",
+    "n3": "^0.11.3",
     "geojson-validation": "latest",
     "geojson": "latest",
     "sync-request": "latest"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.26.14",
-    "mocha": "^3.4.2"
+    "mocha": "^5.2.0"
   }
 }
