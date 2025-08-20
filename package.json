@@ -11,15 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.4",
-    "pug": "latest",
-    "n3": "^0.11.3",
-    "geojson-validation": "latest",
     "geojson": "latest",
+    "geojson-validation": "latest",
+    "lodash": "^4.17.4",
+    "n3": "^0.11.3",
+    "pug": "latest",
     "sync-request": "latest"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.26.14",
-    "mocha": "^5.2.0"
+    "mocha": "^11.7.1"
   }
 }
